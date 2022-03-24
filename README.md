@@ -21,5 +21,6 @@ https://example.com/
 - db name
 - db user name
 - db password
+- at last rename ".env.local" to ".env"
 
 ### All rights reserved by [Hasibul Hasan](https://hasibul-hasan.netlify.app/)
