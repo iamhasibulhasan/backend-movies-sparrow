@@ -62,6 +62,17 @@ async function run() {
             res.json(result);
         });
 
+        // Delete Api
+        app.delete('/movie/:id', async (req, res) => {
+            let dMsg;
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) };
+
+            const result = await movieCollection.deleteOne(query);
+
+            res.json(result);
+        });
+
 
     } finally {
         // client.close();
