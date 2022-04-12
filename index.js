@@ -27,23 +27,37 @@ async function run() {
 
         // Get Api All Movies
         app.get('/movies', async (req, res) => {
+            let movies;
             const cursor = movieCollection.find({});
-            const movies = await cursor.toArray();
-            res.send(movies);
+            const page = req.query.page;
+            const size = parseInt(req.query.size);
+            const count = await cursor.count();
+
+            if (page) {
+                movies = await cursor.skip(page * size).limit(size).toArray();
+            } else {
+                movies = await cursor.toArray();
+            }
+
+
+            res.send({
+                count,
+                movies
+            });
         });
         // Find One Api
         app.get('/movie/:id', async (req, res) => {
             const id = req.params.id;
             const query = { _id: ObjectId(id) };
             const result = await movieCollection.findOne(query);
-            console.log(result);
+            // console.log(result);
             res.json(result);
         });
 
         // Post Api Add Movies
         app.post('/addMovie', async (req, res) => {
             const movie = req.body;
-            console.log(movie);
+            // console.log(movie);
             const result = await movieCollection.insertOne(movie);
             res.json(result);
         });
