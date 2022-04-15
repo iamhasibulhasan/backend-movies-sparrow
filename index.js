@@ -64,12 +64,34 @@ async function run() {
 
         // Delete Api
         app.delete('/movie/:id', async (req, res) => {
-            let dMsg;
+
             const id = req.params.id;
             const query = { _id: ObjectId(id) };
 
             const result = await movieCollection.deleteOne(query);
 
+            res.json(result);
+        });
+
+        // update Api
+        app.patch('/movie', async (req, res) => {
+
+            let id = req.body._id;
+
+            const filter = { _id: ObjectId(id) };
+
+            const updateMovie = {
+                $set: {
+                    movieName: req.body.movieName,
+                    description: req.body.description,
+                    ticketPrice: req.body.ticketPrice,
+                    category: req.body.category,
+                },
+            };
+
+            const result = await movieCollection.updateOne(filter, updateMovie);
+
+            // console.log(result);
             res.json(result);
         });
 
