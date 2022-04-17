@@ -24,6 +24,7 @@ async function run() {
         await client.connect();
         const database = client.db('sparrowMovies');
         const movieCollection = database.collection('movies');
+        const blogCollection = database.collection('blogs');
 
         // Get Api All Movies
         app.get('/movies', async (req, res) => {
@@ -96,14 +97,49 @@ async function run() {
         // Count API
         app.get('/collection-count', async (req, res) => {
             const movieCount = await movieCollection.find({}).count();
-
-
-
-
-
+            const blogCount = await blogCollection.find({}).count();
             res.json({
-                movieCount
+                movieCount,
+                blogCount
             });
+        });
+
+        //? Post API add blogs
+        app.post('/addBlog', async (req, res) => {
+            const blog = req.body;
+            // console.log(blog);
+            const result = await blogCollection.insertOne(blog);
+            res.json(result);
+        });
+        //? Get Api All Blogs
+        app.get('/blogs', async (req, res) => {
+            let blogs;
+            const cursor = blogCollection.find({});
+            const page = req.query.page;
+            const size = parseInt(req.query.size);
+            const count = await cursor.count();
+
+            if (page) {
+                blogs = await cursor.skip(page * size).limit(size).toArray();
+            } else {
+                blogs = await cursor.toArray();
+            }
+
+
+            res.send({
+                count,
+                blogs
+            });
+        });
+        //? Delete Api blog
+        app.delete('/blog/:id', async (req, res) => {
+
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) };
+
+            const result = await blogCollection.deleteOne(query);
+
+            res.json(result);
         });
 
 
