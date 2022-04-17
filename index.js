@@ -90,9 +90,20 @@ async function run() {
             };
 
             const result = await movieCollection.updateOne(filter, updateMovie);
-
-            // console.log(result);
             res.json(result);
+        });
+
+        // Count API
+        app.get('/collection-count', async (req, res) => {
+            const movieCount = await movieCollection.find({}).count();
+
+
+
+
+
+            res.json({
+                movieCount
+            });
         });
 
 
