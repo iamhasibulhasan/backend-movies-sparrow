@@ -25,6 +25,7 @@ async function run() {
         const database = client.db('sparrowMovies');
         const movieCollection = database.collection('movies');
         const blogCollection = database.collection('blogs');
+        const ticketCollection = database.collection('orders');
 
         // Get Api All Movies
         app.get('/movies', async (req, res) => {
@@ -49,6 +50,7 @@ async function run() {
         // Find One Api
         app.get('/movie/:id', async (req, res) => {
             const id = req.params.id;
+
             const query = { _id: ObjectId(id) };
             const result = await movieCollection.findOne(query);
             // console.log(result);
@@ -139,6 +141,14 @@ async function run() {
 
             const result = await blogCollection.deleteOne(query);
 
+            res.json(result);
+        });
+
+        //* Post API add order
+        app.post('/checkout', async (req, res) => {
+            const ticket = req.body;
+            // console.log(ticket);
+            const result = await ticketCollection.insertOne(ticket);
             res.json(result);
         });
 
