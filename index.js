@@ -152,6 +152,43 @@ async function run() {
             res.json(result);
         });
 
+        //* Get API add order
+        app.get('/orders', async (req, res) => {
+
+            const cursor = ticketCollection.find({});
+            let orders = await cursor.toArray();
+
+            res.send(orders);
+        });
+
+        // update status Api
+        app.patch('/status', async (req, res) => {
+
+            let id = req.body.id;
+            // console.log(req.body.status);
+
+            const filter = { _id: ObjectId(id) };
+
+            const updateStatus = {
+                $set: {
+                    status: req.body.status
+                },
+            };
+
+            const result = await ticketCollection.updateOne(filter, updateStatus);
+            res.json(result);
+        });
+        //* Delete Api orders
+        app.delete('/order/:id', async (req, res) => {
+
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) };
+
+            const result = await ticketCollection.deleteOne(query);
+
+            res.json(result);
+        });
+
 
     } finally {
         // client.close();
