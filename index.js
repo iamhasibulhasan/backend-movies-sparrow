@@ -160,6 +160,17 @@ async function run() {
 
             res.send(orders);
         });
+        // filter order
+        app.get('/orders/:id', async (req, res) => {
+
+            const id = req.params.id;
+
+            const query = { uid: id };
+            const result = await ticketCollection.find(query).toArray();
+
+            // console.log(result);
+            res.send(result);
+        });
 
         // update status Api
         app.patch('/status', async (req, res) => {
