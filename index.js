@@ -100,9 +100,11 @@ async function run() {
         app.get('/collection-count', async (req, res) => {
             const movieCount = await movieCollection.find({}).count();
             const blogCount = await blogCollection.find({}).count();
+            const orderCount = await ticketCollection.find({}).count();
             res.json({
                 movieCount,
-                blogCount
+                blogCount,
+                orderCount
             });
         });
 
