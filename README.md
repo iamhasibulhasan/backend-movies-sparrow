@@ -16,6 +16,10 @@ npm install
 ```
 https://movies-sparrow.web.app/
 ```
+### Frontend Repository Link
+```
+https://github.com/iamhasibulhasan/frontend-movies-sparrow
+```
 ### mongodb setup (.env.example)
 
 - db name
