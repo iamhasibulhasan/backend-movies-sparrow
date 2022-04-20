@@ -14,7 +14,7 @@ npm install
 ```
 ### live site :blush:
 ```
-https://example.com/
+https://movies-sparrow.web.app/
 ```
 ### mongodb setup (.env.example)
 
